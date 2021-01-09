@@ -1,0 +1,45 @@
+---
+name: live_messanger
+description: A new Flutter project.
+publish_to: none
+version: 1.0.0+1
+environment:
+  sdk: '>=2.7.0 <3.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^4.3.2+3
+  cloud_firestore: ^0.14.4
+  firebase_core: ^0.5.3
+  firebase_auth: ^0.18.4+1
+  firebase_analytics: ^6.3.0
+  google_sign_in: ^4.5.6
+  flutter_auth_buttons: ^0.10.0
+  flutter_brand_icons: ^1.1.0
+  loading_overlay: ^0.2.1
+  cached_network_image: ^2.5.0
+  intl: any
+  cupertino_icons: ^1.0.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+  fonts:
+    - family: Poppins-Regular
+      fonts:
+        - asset: fonts/Poppins/Poppins-Regular.ttf
+    - family: Poppins-Italic
+      fonts:
+        - asset: fonts/Poppins/Poppins-Italic.ttf
+    - family: Poppins-Bold
+      fonts:
+        - asset: fonts/Poppins/Poppins-Bold.ttf
+    - family: Poppins-Extra-Bold
+      fonts:
+        - asset: fonts/Poppins/Poppins-ExtraBold.ttf
+    - family: Poppins-Bold-Italic
+      fonts:
+        - asset: fonts/Poppins/Poppins-BoldItalic.ttf
