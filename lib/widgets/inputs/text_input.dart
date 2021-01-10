@@ -62,9 +62,7 @@ class _TextInputState extends State<TextInput> {
           hintStyle: TextStyle(
             color: Colors.white54,
           ),
-          fillColor: Colors.grey[900].withOpacity(
-            0.5,
-          ),
+          fillColor: Colors.grey[900],
         ),
       ),
     );

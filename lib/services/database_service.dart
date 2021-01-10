@@ -37,14 +37,15 @@ class DatabaseService {
   Future<void> removeChatRoom(String _id) async =>
       await chats.doc(_id).delete();
 
-  Future<void> sendMessage(
-      String _chatRoomId, String _senderId, String _messageText) async {
+  Future<void> sendMessage(String _chatRoomId, String _senderId,
+      String _senderPhotoUrl, String _messageText) async {
     final Map<String, dynamic> _chatRoomData =
         await chats.doc(_chatRoomId).get().then((value) => value.data());
 
     _chatRoomData['messages'].add({
       'text': _messageText,
       'senderId': _senderId,
+      'senderPhotoUrl': _senderPhotoUrl,
       'sentOn': Timestamp.now(),
     });
 

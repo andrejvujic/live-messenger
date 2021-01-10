@@ -1,8 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' as services;
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:live_messanger/services/database_service.dart';
+import 'package:live_messanger/utils/utils.dart';
+import 'package:live_messanger/widgets/buttons/solid_button.dart';
+import 'package:live_messanger/widgets/chat/message_tile.dart';
 import 'package:live_messanger/widgets/inputs/text_input.dart';
 
 class Chat extends StatefulWidget {
@@ -18,6 +24,8 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   TextEditingController _textController;
   ScrollController _messagesController;
+
+  final _utils = Utils();
 
   final _databaseService =
       DatabaseService(uid: FirebaseAuth.instance.currentUser.uid);
@@ -41,8 +49,14 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_messagesController.hasClients) {
-        _messagesController
-            .jumpTo(_messagesController.position.maxScrollExtent);
+        _messagesController.animateTo(
+            _messagesController.position.maxScrollExtent,
+            duration: Duration(
+              milliseconds: 300,
+            ),
+            curve: Curves.easeInOut);
+      } else {
+        setState(() => null);
       }
     });
     return Scaffold(
@@ -50,6 +64,40 @@ class _ChatState extends State<Chat> {
       appBar: AppBar(
         title: Text(
           widget.chat['title'],
+        ),
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: 32.0,
+                      backgroundImage: CachedNetworkImageProvider(
+                        widget.chat['image'],
+                      ),
+                    ),
+                    title: Text(
+                      widget.chat['title'],
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
       body: StreamBuilder(
@@ -70,26 +118,15 @@ class _ChatState extends State<Chat> {
                       child: ListView.builder(
                         controller: _messagesController,
                         itemCount: _chatData['messages'].length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            Container(
-                          padding: EdgeInsets.all(5.0),
-                          child: ListTile(
-                            title: Text(
-                              _chatData['messages'][index]['text'],
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            subtitle: Text(
-                              DateFormat('dd/MM/yyyy HH:mm').format(
-                                _chatData['messages'][index]['sentOn'].toDate(),
-                              ),
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.white54,
-                              ),
-                            ),
+                        itemBuilder: (BuildContext context, int index) => Theme(
+                          data: ThemeData(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            fontFamily: 'Poppins-Regular',
+                          ),
+                          child: MessageTile(
+                            index: index,
+                            chatData: _chatData,
                           ),
                         ),
                       ),
@@ -112,19 +149,21 @@ class _ChatState extends State<Chat> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.15,
-              color: Colors.grey[900].withOpacity(
-                0.5,
-              ),
+              color: Colors.grey[900],
               child: IconButton(
+                splashRadius: 1.0,
                 onPressed: () async {
-                  await _databaseService.sendMessage(
-                    widget.chat['id'],
-                    FirebaseAuth.instance.currentUser.uid,
-                    _textController.text,
-                  );
-                  _textController.clear();
-                  _messagesController
-                      .jumpTo(_messagesController.position.maxScrollExtent);
+                  if (_textController.text.isNotEmpty) {
+                    await _databaseService.sendMessage(
+                      widget.chat['id'],
+                      FirebaseAuth.instance.currentUser.uid,
+                      FirebaseAuth.instance.currentUser.photoURL,
+                      _textController.text,
+                    );
+                    _textController.clear();
+                    _messagesController
+                        .jumpTo(_messagesController.position.maxScrollExtent);
+                  }
                 },
                 icon: Icon(
                   Icons.send,

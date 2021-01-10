@@ -73,6 +73,7 @@ class _AppState extends State<App> {
           primaryColor: Colors.black,
           primarySwatch: Colors.deepOrange,
           scaffoldBackgroundColor: Colors.black,
+          canvasColor: Colors.grey[900],
           appBarTheme: AppBarTheme(
             color: Colors.black,
             centerTitle: true,
