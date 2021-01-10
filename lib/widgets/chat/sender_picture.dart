@@ -34,6 +34,7 @@ class _SenderPictureState extends State<SenderPicture> {
   Widget build(BuildContext context) {
     return (_isSentByUser == _targetIsSentByUser && !_isPreviousSentBySameUser)
         ? CircleAvatar(
+            backgroundColor: Colors.grey[800],
             backgroundImage: CachedNetworkImageProvider(
               _messageData['senderPhotoUrl'],
             ),

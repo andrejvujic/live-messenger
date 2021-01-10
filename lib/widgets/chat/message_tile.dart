@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,8 +31,6 @@ class _MessageTileState extends State<MessageTile> {
         _messageData, FirebaseAuth.instance.currentUser.uid);
     _isPreviousSentBySameUser = _utils.isPreviousSentBySameUser(
         _chatData, _index, _messageData['senderId']);
-
-    print(_isPreviousSentBySameUser);
     super.initState();
   }
 

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:live_messanger/widgets/buttons/solid_button.dart';
 
-class YesNoAlert {
+class InfoAlert {
   final String title, text;
-  final Function onYesPressed, onNoPressed;
-  YesNoAlert({
+
+  InfoAlert({
     this.title,
     this.text,
-    this.onYesPressed,
-    this.onNoPressed,
   });
 
   Future<void> show(BuildContext context) async {
@@ -44,35 +42,14 @@ class YesNoAlert {
             actions: <Widget>[
               SolidButton(
                 child: Text(
-                  'NE',
+                  'OK',
                   style: TextStyle(
                     fontFamily: 'Poppins-Bold',
                     fontSize: 16.0,
-                    color: Colors.red[600],
+                    color: Colors.white,
                   ),
                 ),
-                highlightColor: Colors.red,
-                splashColor: Colors.red,
-                onPressed: () {
-                  onNoPressed?.call();
-                  Navigator.pop(context);
-                },
-              ),
-              SolidButton(
-                child: Text(
-                  'DA',
-                  style: TextStyle(
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 16.0,
-                    color: Colors.lightGreen[600],
-                  ),
-                ),
-                highlightColor: Colors.green,
-                splashColor: Colors.green,
-                onPressed: () {
-                  onYesPressed?.call();
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
               ),
             ],
           ),

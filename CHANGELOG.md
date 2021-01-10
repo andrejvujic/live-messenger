@@ -15,3 +15,9 @@
   user sends multiple messages in a row)
 - Added drawer with chat name and picture
   as header to chat screen
+
+📍 v1.0.2
+- Added notifications with Firebase Messaging
+- Added option to sign out
+- Added option to change chat title
+- Added option to add users to chat

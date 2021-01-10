@@ -7,7 +7,7 @@ class TextInput extends StatefulWidget {
   final String initialValue, hintText, labelText, helperText;
   final int maxLength, maxLines;
   final double width;
-  final Color cursorColor;
+  final Color fillColor, hintColor, labelColor, textColor, cursorColor;
   final EdgeInsets margin, padding;
   final TextEditingController controller;
   final Function onChanged;
@@ -22,6 +22,10 @@ class TextInput extends StatefulWidget {
     this.maxLines = 1,
     this.width,
     this.cursorColor = Colors.deepOrange,
+    this.fillColor,
+    this.hintColor = Colors.white54,
+    this.labelColor = Colors.white,
+    this.textColor = Colors.white,
     this.controller,
     this.onChanged,
     this.margin = const EdgeInsets.all(0.0),
@@ -40,7 +44,7 @@ class _TextInputState extends State<TextInput> {
       child: TextFormField(
         cursorColor: widget.cursorColor,
         style: TextStyle(
-          color: Colors.white,
+          color: widget.textColor,
         ),
         onChanged: (
           String _value,
@@ -60,9 +64,12 @@ class _TextInputState extends State<TextInput> {
           hintText: widget.hintText,
           labelText: widget.labelText,
           hintStyle: TextStyle(
-            color: Colors.white54,
+            color: widget.hintColor,
           ),
-          fillColor: Colors.grey[900],
+          labelStyle: TextStyle(
+            color: widget.labelColor,
+          ),
+          fillColor: widget.fillColor ?? Colors.grey[900],
         ),
       ),
     );
